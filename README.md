@@ -2,7 +2,9 @@
 
 This is the official repository which contains all the code necessary to
 replicate the results from the ACL 2019 long paper *Syntactically Supervised
-Transformers for Faster Neural Machine Translation*.
+Transformers for Faster Neural Machine Translation*. It can also be used to
+train a vanilla Transformer or a [Semi-Autoregressive
+Transformer](https://aclweb.org/anthology/D18-1044).
 
 The full model architecture is displayed below:
 
@@ -68,13 +70,29 @@ CLASSPATH=stanford-corenlp-full-2018-10-05/* python main.py \
 
 ### Training
 
-Assumming you have access to 8 1080Ti GPUs you can recreate the results for the
-WMT'14 En-De dataset with:
+Assuming you have access to 8 1080Ti GPUs you can recreate the results for SynST
+on the WMT'14 En-De dataset with:
 
 ```sh
 python main.py -b 3175 --dataset wmt_en_de_parsed --span 6 \
   --model parse_transformer -d raw/wmt -p preprocessed/wmt -v train \
   --checkpoint-interval 1200 --accumulate 2 --label-smoothing 0
+```
+
+The above commandline will train 8 GPUs with approximately 3175 source/target
+tokens combined per GPU, and accumulate the gradients over two batches before
+updating model parameters (leading to ~50.8k tokens per model update).
+
+The default model is the Transformer model, which can take the additional
+commandline argument `--span <k>` to produce a semi-autoregressive variant
+(where the default `--span 1` is the basic Transformer). For example the below
+line will train a semi-autoregressive Transformer with `k=2` on the WMT'14 De-En
+dataset:
+
+```sh
+python main.py -b 3175 --dataset wmt_de_en --span 2 \
+  -d raw/wmt -p preprocessed/wmt -v train \
+  --checkpoint-interval 1200 --accumulate 2
 ```
 
 ### Evalulating Perplexity
@@ -93,7 +111,7 @@ python main.py -b 5000 --dataset wmt_en_de_parsed --span 6 \
 ### Translating
 
 After training a model, you can generate translations with the following
-command (currently only translation on a single GPU is possible):
+command (currently only translation on a single GPU is supported):
 
 ```sh
 CUDA_VISIBLE_DEVICES=0 python main.py --dataset wmt_en_de_parsed --span 6 \
