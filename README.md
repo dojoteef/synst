@@ -12,12 +12,11 @@ The full model architecture is displayed below:
 <img src="resources/model.png">
 </p>
 
-Our approach treats syntax as a form of latent supervision, in order to speed up
+Our approach uses syntactic supervision to speed up
 neural machine translation (NMT) for the Transformer architecture. We modify
-the Transformer architecture by adding a single layer parse decoder, which first
-autoregressively predicts a shallow chunking of the parse, conditioned on this
-parse, the model generates the final target translation in a single pass through
-the token decoder. The above demonstrates the inputs and outputs for each module
+the Transformer architecture by adding a single layer parse decoder that
+autoregressively predicts a shallow chunking of the target parse. Then, conditioned on this
+parse, a separate token decoder generates the final target translation in one shot (non-autoregressively). The figure above demonstrates the inputs and outputs for each module
 in the architecture.
 
 ## Requirements
