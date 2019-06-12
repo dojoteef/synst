@@ -1,8 +1,8 @@
 # SynST: Syntactically Supervised Transformers
 
 This is the official repository which contains all the code necessary to
-replicate the results from the ACL 2019 long paper *Syntactically Supervised
-Transformers for Faster Neural Machine Translation*. It can also be used to
+replicate the results from the ACL 2019 long paper *[Syntactically Supervised
+Transformers for Faster Neural Machine Translation](https://arxiv.org/abs/1906.02780)*. It can also be used to
 train a vanilla Transformer or a [Semi-Autoregressive
 Transformer](https://aclweb.org/anthology/D18-1044).
 
