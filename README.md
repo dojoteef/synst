@@ -118,7 +118,7 @@ CUDA_VISIBLE_DEVICES=0 python main.py --dataset wmt_en_de_parsed --span 6 \
   --batch-size 1 --batch-method example --split test -v \
   --restore /tmp/synst/checkpoints/checkpoint.pt \
   --average-checkpoints 5 translate \
-  --max-decode-length 50 --length_basis input_lens --order-output
+  --max-decode-length 50 --length-basis input_lens --order-output
 ```
 
 Which by default, will output translations to `/tmp/synst/output`.
