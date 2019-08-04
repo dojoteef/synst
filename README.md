@@ -2,8 +2,9 @@
 
 This is the official repository which contains all the code necessary to
 replicate the results from the ACL 2019 long paper *[Syntactically Supervised
-Transformers for Faster Neural Machine Translation](https://arxiv.org/abs/1906.02780)*. It can also be used to
-train a vanilla Transformer or a [Semi-Autoregressive
+Transformers for Faster Neural Machine
+Translation](https://arxiv.org/abs/1906.02780)*. It can also be used to train a
+vanilla Transformer or a [Semi-Autoregressive
 Transformer](https://aclweb.org/anthology/D18-1044).
 
 The full model architecture is displayed below:
@@ -12,12 +13,13 @@ The full model architecture is displayed below:
 <img src="resources/model.png">
 </p>
 
-Our approach uses syntactic supervision to speed up
-neural machine translation (NMT) for the Transformer architecture. We modify
-the Transformer architecture by adding a single layer parse decoder that
-autoregressively predicts a shallow chunking of the target parse. Then, conditioned on this
-parse, a separate token decoder generates the final target translation in one shot (non-autoregressively). The figure above demonstrates the inputs and outputs for each module
-in the architecture.
+Our approach uses syntactic supervision to speed up neural machine translation
+(NMT) for the Transformer architecture. We modify the Transformer architecture
+by adding a single layer parse decoder that autoregressively predicts a shallow
+chunking of the target parse. Then, conditioned on this parse, a separate token
+decoder generates the final target translation in one shot
+(non-autoregressively). The figure above demonstrates the inputs and outputs
+for each module in the architecture.
 
 ## Requirements
 
@@ -28,9 +30,10 @@ command (using a virtual environment is highly recommended):
 pip install -r requirements.txt
 ```
 
-In order to parse the datasets, the code also depends upon the shift-reduce
-parsers from [CoreNLP](https://stanfordnlp.github.io/CoreNLP/). First, make sure
-you have an appropriate Java runtime installed.
+In order to parse the datasets, the code also depends upon
+[jq](https://stedolan.github.io/jq/) and the shift-reduce parsers from
+[CoreNLP](https://stanfordnlp.github.io/CoreNLP/). First, make sure you have an
+appropriate Java runtime installed.
 
 Then download and unzip the main CoreNLP package to the directory of your
 choice:
@@ -66,6 +69,15 @@ pass}`.
 CLASSPATH=stanford-corenlp-full-2018-10-05/* python main.py \
   --dataset wmt_en_de_parsed --span 6 -d raw/wmt -p preprocessed/wmt -v pass
 ```
+
+#### Troubleshooting
+
+If you have issues with preprocessing, a few common problems are:
+
+1. Not correctly setting your `CLASSPATH` to include CoreNLP
+2. The environment variables for `LANG` and `LC_ALL` are not set to use UTF-8.
+   Try setting `LANG=en_US.UTF-8 LC_ALL=` on the command-line when running the
+   preprocessing.
 
 ### Training
 
